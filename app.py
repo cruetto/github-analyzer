@@ -249,15 +249,6 @@ def main():
 
     query = st.text_input("Enter your request:", placeholder="e.g., What does the requests library do?")
 
-    # Analysis options
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        analyze_structure = st.checkbox("Analyze Structure", value=True)
-    with col2:
-        analyze_files = st.checkbox("Analyze Main Files", value=True)
-    with col3:
-        analyze_deps = st.checkbox("Analyze Dependencies", value=True)
-
     if st.button("🔍 Analyze", type="primary"):
         if not query.strip():
             st.warning("Please enter a query.")
@@ -288,84 +279,35 @@ def main():
             st.metric("💻 Language", repo_data["Language"])
         with col4:
             st.metric("👤 Author", repo_data["Author"])
-        
+
         st.markdown(f"**Description:** {repo_data['Description']}")
         st.markdown(f"**URL:** [{repo_data['URL']}]({repo_data['URL']})")
         if repo_data['Topics']:
             st.markdown(f"**Topics:** {', '.join([f'`{t}`' for t in repo_data['Topics']])}")
 
-        # Structure Analysis
-        structure = {}
-        dependencies = {}
-        readme = None
-        
-        if analyze_structure:
-            with st.spinner("Analyzing project structure..."):
-                structure = analyze_project_structure(repo_data["Full_Name"])
-                readme = get_readme_content(repo_data["Full_Name"])
-            
-            if structure:
-                st.subheader("📁 Project Structure")
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    if structure.get("main_files"):
-                        st.markdown("**🎯 Main Files:**")
-                        for f in structure["main_files"]:
-                            st.markdown(f"- `{f}`")
-                    
-                    if structure.get("config_files"):
-                        st.markdown("**⚙️ Config Files:**")
-                        for f in structure["config_files"]:
-                            st.markdown(f"- `{f}`")
-                
-                with col2:
-                    if structure.get("documentation"):
-                        st.markdown("**📚 Documentation:**")
-                        for f in structure["documentation"]:
-                            st.markdown(f"- `{f}`")
-                    
-                    if structure.get("directories"):
-                        st.markdown(f"**📂 Directories:** {len(structure['directories'])} found")
-                        with st.expander("View directories"):
-                            for d in structure["directories"]:
-                                st.markdown(f"- `{d}/`")
+        # Run all analyses automatically
+        structure = analyze_project_structure(repo_data['Full_Name'])
+        st.subheader("📁 Project Structure")
+        st.write(structure)
 
-        # Dependencies Analysis
-        if analyze_deps and structure:
-            with st.spinner("Analyzing dependencies..."):
-                dependencies = analyze_dependencies(repo_data["Full_Name"], structure)
-            
-            if dependencies:
-                st.subheader("📦 Dependencies")
-                for dep_type, deps in dependencies.items():
-                    with st.expander(f"{dep_type} ({len(deps)} shown)"):
-                        for dep in deps:
-                            st.markdown(f"- `{dep}`")
+        main_files_analysis = analyze_main_files(repo_data['Full_Name'], structure.get('main_files', []))
+        st.subheader("📄 Main Files Analysis")
+        st.write(main_files_analysis)
 
-        # Main Files Analysis
-        if analyze_files and structure.get("main_files"):
-            with st.spinner("Analyzing main files with AI..."):
-                files_analysis = analyze_main_files(repo_data["Full_Name"], structure["main_files"])
-            
-            st.subheader("🔍 Main Files Analysis")
-            st.markdown(files_analysis)
+        dependencies = analyze_dependencies(repo_data['Full_Name'], structure)
+        st.subheader("📦 Dependencies")
+        st.write(dependencies)
 
-        # Comprehensive Analysis
-        with st.spinner("Generating comprehensive analysis with AI..."):
-            comprehensive = generate_comprehensive_analysis(repo_data, structure, readme, dependencies)
-
-        st.subheader("🤖 AI Comprehensive Analysis")
-        st.success(comprehensive)
-
-        # README Preview
+        readme = get_readme_content(repo_data['Full_Name'])
         if readme:
-            with st.expander("📖 README Preview"):
-                st.markdown(readme[:2000] + ("..." if len(readme) > 2000 else ""))
+            st.subheader("📖 README Content")
+            st.write(readme[:2000])  # Show first 2000 chars
 
-        # Raw Data
-        with st.expander("🔧 Raw API Response"):
-            st.json(repo_data)
+        comprehensive_analysis = generate_comprehensive_analysis(repo_data, structure, readme, dependencies)
+        st.subheader("🧠 Comprehensive Analysis")
+        st.write(comprehensive_analysis)
 
+
+        
 if __name__ == "__main__":
     main()
