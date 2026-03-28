@@ -18,6 +18,11 @@ from datetime import datetime
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+# Import from refactored modules
+from nlp import extract_repo, get_llm
+from github_api import fetch_repo, fetch_repo_contents, analyze_project_structure
+from analysis import generate_comprehensive_analysis
+
 # Test Configuration
 TEST_QUERIES = [
     {
@@ -108,7 +113,6 @@ class EntityExtractionTests(unittest.TestCase):
     def setUp(self):
         """Set up test fixtures"""
         try:
-            from app import extract_repo
             self.extract_repo = extract_repo
             self.import_success = True
         except ImportError as e:
@@ -176,7 +180,6 @@ class GitHubAPITests(unittest.TestCase):
     def setUp(self):
         """Set up test fixtures"""
         try:
-            from app import fetch_repo, fetch_repo_contents, analyze_project_structure
             self.fetch_repo = fetch_repo
             self.fetch_repo_contents = fetch_repo_contents
             self.analyze_project_structure = analyze_project_structure
@@ -256,7 +259,6 @@ class ResponseQualityTests(unittest.TestCase):
     def setUp(self):
         """Set up test fixtures"""
         try:
-            from app import get_llm, generate_comprehensive_analysis
             self.get_llm = get_llm
             self.generate_comprehensive_analysis = generate_comprehensive_analysis
             self.import_success = True

@@ -165,14 +165,28 @@ result = evaluator.completeness_evaluation(
 
 ```
 github-analyzer/
-├── app.py                 # Main Streamlit application
-├── tests.py              # Test suite (automated + manual)
-├── test_evaluation.py    # Test evaluation report generator
-├── ARCHITECTURE.md       # Architecture documentation
-├── README.md             # This file
-├── requirements.txt      # Python dependencies
-└── .env                  # API keys (not in repo)
+├── app.py                 # Main Streamlit application (UI layer)
+├── nlp.py                 # NLP processing (entity extraction, LLM)
+├── github_api.py          # GitHub API integration
+├── analysis.py            # Analysis functions (LLM-powered)
+├── tests.py               # Test suite (automated + manual)
+├── test_evaluation.py     # Test evaluation report generator
+├── ARCHITECTURE.md        # Architecture documentation
+├── README.md              # This file
+├── requirements.txt       # Python dependencies
+└── .env                   # API keys (not in repo)
 ```
+
+### Module Responsibilities
+
+| Module | Responsibility |
+|--------|----------------|
+| **app.py** | Streamlit UI, user interaction, result display |
+| **nlp.py** | LLM initialization, entity extraction, structured output |
+| **github_api.py** | GitHub API calls, data fetching, structure analysis |
+| **analysis.py** | LLM-powered analysis, summarization, insights |
+| **tests.py** | Automated tests, manual evaluation framework |
+| **test_evaluation.py** | Test report generation, metrics calculation |
 
 ## Key Components
 
