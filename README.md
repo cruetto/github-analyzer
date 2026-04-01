@@ -106,7 +106,7 @@ The project includes comprehensive testing:
 ### Run Automated Tests
 
 ```bash
-python tests.py
+python tests/test_suite.py
 ```
 
 This runs:
@@ -117,7 +117,7 @@ This runs:
 ### Generate Test Report
 
 ```bash
-python test_evaluation.py
+python tests/test_evaluation.py
 ```
 
 This generates:
@@ -165,16 +165,23 @@ result = evaluator.completeness_evaluation(
 
 ```
 github-analyzer/
-├── app.py                 # Main Streamlit application (UI layer)
-├── nlp.py                 # NLP processing (entity extraction, LLM)
-├── github_api.py          # GitHub API integration
-├── analysis.py            # Analysis functions (LLM-powered)
-├── tests.py               # Test suite (automated + manual)
-├── test_evaluation.py     # Test evaluation report generator
-├── ARCHITECTURE.md        # Architecture documentation
-├── README.md              # This file
-├── requirements.txt       # Python dependencies
-└── .env                   # API keys (not in repo)
+├── app.py                    # Main Streamlit application (UI layer)
+├── utils/                    # Utility modules
+│   ├── __init__.py           # Package initialization
+│   ├── nlp.py                # NLP processing (entity extraction, LLM)
+│   ├── github_api.py         # GitHub API integration
+│   └── analysis.py           # Analysis functions (LLM-powered)
+├── tests/                    # Test suite
+│   ├── __init__.py           # Package initialization
+│   ├── test_suite.py         # Automated tests and manual evaluation
+│   └── test_evaluation.py    # Test evaluation report generator
+├── ARCHITECTURE.md           # Architecture documentation
+├── README.md                 # This file
+├── requirements.txt          # Python dependencies
+├── TASK.md                   # Original task requirements
+├── TEST_REPORT.txt           # Generated test report
+├── test_results.json         # Machine-readable test results
+└── .env                      # API keys (not in repo)
 ```
 
 ### Module Responsibilities
@@ -182,11 +189,11 @@ github-analyzer/
 | Module | Responsibility |
 |--------|----------------|
 | **app.py** | Streamlit UI, user interaction, result display |
-| **nlp.py** | LLM initialization, entity extraction, structured output |
-| **github_api.py** | GitHub API calls, data fetching, structure analysis |
-| **analysis.py** | LLM-powered analysis, summarization, insights |
-| **tests.py** | Automated tests, manual evaluation framework |
-| **test_evaluation.py** | Test report generation, metrics calculation |
+| **utils/nlp.py** | LLM initialization, entity extraction, structured output |
+| **utils/github_api.py** | GitHub API calls, data fetching, structure analysis |
+| **utils/analysis.py** | LLM-powered analysis, summarization, insights |
+| **tests/test_suite.py** | Automated tests, manual evaluation framework |
+| **tests/test_evaluation.py** | Test report generation, metrics calculation |
 
 ## Key Components
 

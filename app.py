@@ -6,8 +6,8 @@ using natural language queries and AI-powered insights.
 """
 
 import streamlit as st
-from nlp import get_llm, extract_repo
-from github_api import (
+from utils.nlp import get_llm, extract_repo
+from utils.github_api import (
     fetch_repo,
     fetch_repo_contents,
     fetch_file_content,
@@ -15,7 +15,7 @@ from github_api import (
     get_readme_content,
     analyze_dependencies
 )
-from analysis import analyze_main_files, generate_comprehensive_analysis
+from utils.analysis import analyze_main_files, generate_comprehensive_analysis
 
 
 @st.cache_resource

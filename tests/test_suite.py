@@ -16,12 +16,12 @@ from dataclasses import dataclass
 from datetime import datetime
 
 # Add parent directory to path for imports
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import from refactored modules
-from nlp import extract_repo, get_llm
-from github_api import fetch_repo, fetch_repo_contents, analyze_project_structure
-from analysis import generate_comprehensive_analysis
+from utils.nlp import extract_repo, get_llm
+from utils.github_api import fetch_repo, fetch_repo_contents, analyze_project_structure
+from utils.analysis import generate_comprehensive_analysis
 
 # Test Configuration
 TEST_QUERIES = [

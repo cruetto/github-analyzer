@@ -10,8 +10,8 @@ Handles repository analysis and LLM-powered insights:
 
 from langchain.prompts import PromptTemplate
 from typing import Optional, List, Dict
-from nlp import get_llm
-from github_api import fetch_file_content
+from .nlp import get_llm
+from .github_api import fetch_file_content
 
 
 def analyze_main_files(full_name: str, main_files: List[str]) -> str:
