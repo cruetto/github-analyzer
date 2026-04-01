@@ -1,16 +1,7 @@
-"""
-GitHub AI Analyzer - Main Application
-=======================================
-Streamlit web application for analyzing GitHub repositories
-using natural language queries and AI-powered insights.
-"""
-
 import streamlit as st
 from utils.nlp import get_llm, extract_repo
 from utils.github_api import (
     fetch_repo,
-    fetch_repo_contents,
-    fetch_file_content,
     analyze_project_structure,
     get_readme_content,
     analyze_dependencies
@@ -20,12 +11,10 @@ from utils.analysis import analyze_main_files, generate_comprehensive_analysis
 
 @st.cache_resource
 def get_cached_llm():
-    """Get cached LLM instance"""
     return get_llm()
 
 
 def main():
-    """Main application entry point"""
     st.set_page_config(page_title="GitHub Analyzer", page_icon="🐙", layout="wide")
     st.title("🐙 GitHub AI Analyzer")
     st.markdown("*Comprehensive GitHub repository analysis with AI*")
@@ -51,7 +40,6 @@ def main():
             st.error("Repository not found.")
             return
 
-        # Basic Info
         st.subheader("📊 Repository Details")
         col1, col2, col3, col4 = st.columns(4)
         with col1:
@@ -68,7 +56,6 @@ def main():
         if repo_data['Topics']:
             st.markdown(f"**Topics:** {', '.join([f'`{t}`' for t in repo_data['Topics']])}")
 
-        # Run all analyses automatically
         structure = analyze_project_structure(repo_data['Full_Name'])
         st.subheader("📁 Project Structure")
         st.write(structure)
@@ -84,13 +71,12 @@ def main():
         readme = get_readme_content(repo_data['Full_Name'])
         if readme:
             st.subheader("📖 README Content")
-            st.write(readme[:2000])  # Show first 2000 chars
+            st.write(readme[:2000])
 
         comprehensive_analysis = generate_comprehensive_analysis(repo_data, structure, readme, dependencies)
         st.subheader("🧠 Comprehensive Analysis")
         st.write(comprehensive_analysis)
 
 
-        
 if __name__ == "__main__":
     main()
