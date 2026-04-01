@@ -15,8 +15,8 @@ def get_cached_llm():
 
 
 def main():
-    st.set_page_config(page_title="GitHub Analyzer", page_icon="🐙", layout="wide")
-    st.title("🐙 GitHub AI Analyzer")
+    st.set_page_config(page_title="GitHub Analyzer", layout="wide")
+    st.title("GitHub AI Analyzer")
     st.markdown("*Comprehensive GitHub repository analysis with AI*")
 
     query = st.text_input("Enter your request:", placeholder="e.g., What does the requests library do?")
